@@ -3,7 +3,7 @@ FROM vgaidarji/docker-android-build:1.0.0
 ##################
 # Install emulator images
 ##################
-RUN echo 'y' | android update sdk -a -u -t "sys-img-armeabi-v7a-android-21"
+RUN sdkmanager "system-images;android-21;google_apis;armeabi-v7a"
 
 ##################
 # Set mandatory environment variables
