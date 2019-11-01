@@ -1,4 +1,4 @@
-FROM vgaidarji/docker-android-build:1.0.0
+FROM vgaidarji/docker-android-build:improve-android-licenses
 
 ##################
 # Install emulator images
