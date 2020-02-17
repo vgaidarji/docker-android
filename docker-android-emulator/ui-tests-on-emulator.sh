@@ -5,9 +5,22 @@ set -eu
 # start android emulator
 START=`date +%s` > /dev/null
 
-echo no | $ANDROID_HOME/tools/android create avd --force -n test -t android-21 --abi default/armeabi-v7a
+# AVD name that will be used to start the image
+AVD_NAME="android-29"
+
+# AVD image identifier, use "sdkmanager --list" to check all available
+ANDROID_IMAGE="system-images;$AVD_NAME;google_apis;x86_64"
+
+# install avd image, in case it's missing
+echo no | $ANDROID_HOME/tools/bin/sdkmanager --install "$ANDROID_IMAGE"
+
+# create AVD
+echo no | $ANDROID_HOME/tools/android create avd -f -n "$AVD_NAME" -k "$ANDROID_IMAGE"
 $ANDROID_HOME/tools/android list avd
-$ANDROID_HOME/tools/emulator64-arm -avd test -no-window -no-boot-anim -no-audio -verbose &
+
+# start emulator
+$ANDROID_HOME/tools/emulator -avd $AVD_NAME -no-window -no-boot-anim -no-audio -verbose &
+
 wait-for-emulator
 unlock-emulator-screen
 
