@@ -5,9 +5,9 @@ set -eu
 # start android emulator
 START=`date +%s` > /dev/null
 
-echo no | $ANDROID_HOME/tools/android create avd --force -n test -k 'system-images;android-21;google_apis;armeabi-v7a' --abi armeabi-v7a
+echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n test --abi default/x86 --package 'system-images;android-29;default;x86' 
 $ANDROID_HOME/tools/android list avd
-$ANDROID_HOME/tools/emulator -avd test -no-window -no-boot-anim -no-audio -verbose &
+$ANDROID_HOME/emulator/emulator -avd test -accel off -gpu off -no-window -no-boot-anim -no-snapshot -no-audio -verbose &
 wait-for-emulator
 unlock-emulator-screen
 

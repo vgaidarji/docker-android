@@ -1,22 +1,20 @@
-FROM vgaidarji/docker-android-build:v1.0.2
+FROM docker-android-build-local:latest
+
+RUN yes | sdkmanager "build-tools;29.0.3"
+RUN sdkmanager "platform-tools"
+RUN yes | sdkmanager "platforms;android-29"
 
 ##################
 # Install emulator images
 ##################
-RUN sdkmanager "system-images;android-21;google_apis;armeabi-v7a"
 
-RUN sdkmanager "emulator"
-RUN yes | sdkmanager \
-	"build-tools;24.0.3" \
-	"build-tools;25.0.2"
-RUN yes | sdkmanager \
-    "extras;android;m2repository" \
-    "extras;google;m2repository" \
-    "extras;google;google_play_services" 
+# v29.3.0.0
+RUN curl -fo emulator.zip https://dl.google.com/android/repository/emulator-linux-6061023.zip
+RUN rm -rf ${ANDROID_HOME}/emulator
+RUN unzip -q emulator.zip -d ${ANDROID_HOME}
+RUN rm -f emulator.zip
 
-RUN yes | sdkmanager "platforms;android-21" \
-    "platforms;android-22" \
-    "platforms;android-25"
+RUN sdkmanager "system-images;android-29;default;x86"
 
 ##################
 # Set mandatory environment variables
